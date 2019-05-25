@@ -44,6 +44,14 @@ addEventListener("event3", function () { }, {
     capture: true,
     once: false
 });
+// エラー例
+// addEventListener("foobar", () => {}, "string");
+// addEventListener("hoge", () => {}, {
+//     capture: true,
+//     once: false,
+//     excess: true
+// });
+// note 2-4. プロパティを1つ増やす関数
 function giveId(obj) {
     var id = "本当はランダムがいいけどここではただの文字列";
     return __assign({}, obj, { id: id });
@@ -54,8 +62,15 @@ var obj2 = giveId({
     num: 0,
     hoge: true
 });
+// 使用例
+// number型のステートを宣言 (numStateはnumber型)
+var _a = useState(0), numState = _a[0], setNumState = _a[1];
+// setNumStateは新しい値で呼び出せる
+setNumState(3);
+// setNumStateは古いステートを新しいステートに変換する関数を渡すこともできる
+setNumState(function (state) { return state + 10; });
+// 型引数を明示することも可能
+var _b = useState(null), anotherState = _b[0], setAnotherState = _b[1];
+setAnotherState(100);
 // エラー例
-var obj3 = giveId({
-    foo: "bar"
-});
-// note 2-5. useState
+//setNumState('foobar');
