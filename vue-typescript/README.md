@@ -2,7 +2,8 @@
 
 これをやってみる
 
-[TypeScriptでVue.jsを書く – Vue CLIを使った開発のポイントを紹介](https://mae.chab.in/archives/60167)
+[TypeScriptでVue.jsを書く – Vue CLIを使った開発のポイントを紹介](https://mae.chab.in/archives/60167)  
+[vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
 
 ## Project setup
 ```
