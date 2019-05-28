@@ -24,6 +24,54 @@ var data = [
     { id: 100, name: "Taro Yamada" }
 ];
 var dataMap = mapFromArray(data, "id");
-// note 3-3. イベント
-// note 3-4. reducer
-// note 3-5. undefinedな引数
+var EventDischarger = /** @class */ (function () {
+    function EventDischarger() {
+    }
+    // eventNameはinterfaceに含まれるやつ
+    // payloadはその名前に含まれるやつ
+    EventDischarger.prototype.emit = function (eventName, payload) {
+        // 省略
+    };
+    return EventDischarger;
+}());
+// 使用例
+var ed = new EventDischarger();
+ed.emit("start", {
+    user: "user1"
+});
+ed.emit("stop", {
+    user: "user1",
+    after: 3
+});
+ed.emit("end", {});
+var reducer = function (state, action) {
+    switch (action.type) {
+        case "increment":
+            return state + action.amount;
+        case "decrement":
+            return state - action.amount;
+        case "reset":
+            return action.value;
+    }
+};
+// 使用例
+reducer(100, {
+    type: 'increment',
+    amount: 10
+}) === 110;
+reducer(100, {
+    type: 'decrement',
+    amount: 55
+}) === 45;
+reducer(500, {
+    type: 'reset',
+    value: 0
+}) === 0;
+// 使用例
+var f1 = function (num) { return num + 10; };
+var v1 = f1(10);
+var f2 = function () { return 0; };
+var v2 = f2();
+var v3 = f2(undefined);
+// エラー例
+// const v4: number = f1();

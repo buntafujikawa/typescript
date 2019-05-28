@@ -65,5 +65,108 @@ type T2 = MyPartial<{
 }>;
 
 // note 3-3. イベント
+
+interface EventPayloads {
+    start: {
+        user: string;
+    };
+    stop: {
+        user: string;
+        after: number;
+    };
+    end: {};
+}
+
+class EventDischarger<E> {
+    // eventNameはinterfaceに含まれるやつ
+    // payloadはその名前に含まれるやつ
+    emit<Event extends keyof E>(eventName: Event, payload: E[Event]) {
+        // 省略
+    }
+}
+
+// 使用例
+const ed = new EventDischarger<EventPayloads>();
+ed.emit("start", {
+    user: "user1"
+});
+ed.emit("stop", {
+    user: "user1",
+    after: 3
+});
+ed.emit("end", {});
+
+// // エラー例
+// ed.emit("start", {
+//     user: "user2",
+//     after: 0
+// });
+// ed.emit("stop", {
+//     user: "user2"
+// });
+// ed.emit("foobar", {
+//     foo: 123
+// });
+
 // note 3-4. reducer
+
+type Action = {
+    type: "increment",
+    amount: number,
+} | {
+    type: "decrement",
+    amount: number,
+} | {
+    type: "reset",
+    value: number,
+}
+
+const reducer = (state: number, action: Action) => {
+    switch (action.type) {
+        case "increment":
+            return state + action.amount;
+        case "decrement":
+            return state - action.amount;
+        case "reset":
+            return action.value;
+    }
+};
+
+// 使用例
+reducer(100, {
+    type: 'increment',
+    amount: 10,
+}) === 110;
+reducer(100, {
+    type: 'decrement',
+    amount: 55,
+}) === 45;
+reducer(500, {
+    type: 'reset',
+    value: 0,
+}) === 0;
+
+// // エラー例
+// reducer(0,{
+//     type: 'increment',
+//     value: 100,
+// });
+
 // note 3-5. undefinedな引数
+/*
+conditional type
+型レベルの条件分岐が可能な型
+T extends U ? X : Y
+https://qiita.com/Quramy/items/b45711789605ef9f96de
+ */
+type Func<A, R> = undefined extends A ? (arg?: A) => R : (arg: A) => R;
+
+// 使用例
+const f1: Func<number, number> = num => num + 10;
+const v1: number = f1(10);
+const f2: Func<undefined, number> = () => 0;
+const v2: number = f2();
+const v3: number = f2(undefined);
+
+// エラー例
+// const v4: number = f1();
