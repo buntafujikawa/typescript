@@ -9,6 +9,9 @@
     <p>
       <ResetButton initialValue="Hello" v-model="greetText"></ResetButton>
     </p>
+    <div>
+      <ModalDialogSample/>
+    </div>
   </div>
 </template>
 
@@ -16,11 +19,13 @@
     import {Component, Watch, Vue} from 'vue-property-decorator';
     import MyButton from '@/components/MyButton.vue';
     import ResetButton from '@/components/ResetButton.vue'; // @ is an alias to /src
+    import ModalDialogSample from '@/components/ModalDialogSample.vue';
 
     @Component({
         components: {
             ResetButton,
             MyButton,
+            ModalDialogSample
         },
     })
 
