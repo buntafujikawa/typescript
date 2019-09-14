@@ -1,25 +1,10 @@
-import {Commit, Dispatch} from "vuex";
-
-interface State {
-  count: number
-}
+import { Getters, Mutations, Actions } from "./types"
+import { State, IGetters, IMutations, IActions } from "./counterType"
 
 const state: State = {
   count: 0
 }
 
-// 実装には一切のインラインキャストが不要になり、全ての関数引数は型付与ずみの状態となる
-interface IGetters {
-  double: number
-  expo2: number
-  expo: (amount: number) => number
-}
-
-type Getters<S, G, RS = {}, RG = {}> = {
-  [K in keyof G]: (state: S, getters: G) => G[K]
-}
-
-// あらかじめgettersの要件もinterfaceで明示する
 const getters: Getters<State, IGetters> = {
   double(state) {
     return state.count * 2
@@ -30,16 +15,6 @@ const getters: Getters<State, IGetters> = {
   expo(state) {
     return amount => state.count ** amount
   }
-}
-
-interface IMutations {
-  setCount: { amount: number }
-  multi: number
-  increment: void
-}
-
-type Mutations<S, M> = {
-  [K in keyof M]: (state: S, payload: M[K]) => void
 }
 
 // mutationも同じ作り
@@ -55,36 +30,7 @@ const mutations: Mutations<State, IMutations> = {
   }
 }
 
-interface IActions {
-  asyncSetCount: { amount: number }
-  asyncMulti: number
-  asyncIncrement: void
-}
-
-type Actions<S, A, G = {}, M = {}, RS = {}, RG = {}> = {
-  [K in keyof A]: (ctx: Context<S, A, G, M, RS, RG>, payload: A[K]) => any
-}
-
-type Commit<M> = <T extends keyof M>(type: T, payload?: M[T]) => void
-type Dispatch<A> = <T extends keyof A>(type: T, payload?: A[T]) => any
-
-type Context<S, A, G, M, RS, RG> = {
-  commit: Commit<M>
-  dispatch: Dispatch<A>
-  state: S
-  getters: G
-  rootState: RS
-  rootGetters: RG
-}
-
-const actions: Actions<
-  State,
-  IActions,
-  IGetters,
-  IMutations,
-  RootState,
-  IRootGetters
-> = {
+const actions: Actions<State, IActions, IGetters, IMutations > = {
   asyncSetCount(ctx, payload) {
     ctx.commit('setCount', { amount: payload.amount })
   },
@@ -96,3 +42,10 @@ const actions: Actions<
   }
 }
 
+export default {
+  namespaced: true,
+  state,
+  getters,
+  mutations,
+  actions
+}
