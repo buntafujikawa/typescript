@@ -1,3 +1,6 @@
 [submodule "practice-typescript/ts-express"]
 	path = practice-typescript/ts-express
 	url = git@github.com:buntafujikawa/ts-express.git
+[submodule "practice-typescript/ts-nuxt"]
+	path = practice-typescript/ts-nuxt
+	url = git@github.com:buntafujikawa/ts-nuxt.git
